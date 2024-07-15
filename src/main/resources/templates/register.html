@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<form th:action="@{/register}" method="post">
+    <div><label> User Name: <input type="text" name="username"/> </label></div>
+    <div><label> Password: <input type="password" name="password"/> </label></div>
+    <div>
+        <label> Roles: </label><br>
+        <input type="checkbox" name="roles" value="USER"/> USER<br>
+        <input type="checkbox" name="roles" value="ADMIN"/> ADMIN<br>
+        <input type="checkbox" name="roles" value="MANAGER"/> MANAGER<br>
+    </div>
+    <div><input type="submit" value="Sign In"/></div>
+</form>
+</body>
+</html>
