@@ -18,11 +18,15 @@
 </head>
 <body>
 
+<h1 th:if="${param.authentication}" class="text-center text-danger">
+    Om volgende module te gebruiken moet je eerste inloggen!
+</h1>
 <div class="container d-flex mt-5 justify-content-center">
-    <image style="max-height: 700px;" class="mx-5" th:src="@{https://www.evolo.us/wp-content/uploads/2019/04/0516-0.jpg}"></image>
+    <image style="max-height: 700px;" class="mx-5"
+           th:src="@{https://www.evolo.us/wp-content/uploads/2019/04/0516-0.jpg}"></image>
     <div class="border border-1 d-flex flex-column align-self-start p-5 align-items-center">
         <h1 class="binstaFonts">Binsta</h1>
-        <div th:if="${param.error}">
+        <div class="text-danger" th:if="${param.error}">
             Invalid username and password.
         </div>
         <div th:if="${param.logout}">

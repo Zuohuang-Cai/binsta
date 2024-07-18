@@ -6,18 +6,24 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <link rel="stylesheet" th:href="@{css/bootstrap.min.css}">
 </head>
-<body>
-<form th:action="@{/register}" method="post">
-    <div><label> User Name: <input type="text" name="username"/> </label></div>
-    <div><label> Password: <input type="password" name="password"/> </label></div>
-    <div>
-        <label> Roles: </label><br>
-        <input type="checkbox" name="roles" value="USER"/> USER<br>
-        <input type="checkbox" name="roles" value="ADMIN"/> ADMIN<br>
-        <input type="checkbox" name="roles" value="MANAGER"/> MANAGER<br>
-    </div>
-    <div><input type="submit" value="Sign In"/></div>
+<body class="d-flex justify-content-center">
+<form th:action="@{/register}" method="post" class="py-5">
+    <form action="/register" method="post">
+        <h1>Username</h1>
+        <input type="text" name="username"/>
+        <h1>Password</h1>
+        <input type="password" name="password"/>
+        <h1>Roles</h1>
+        <div class="d-flex">
+            <div th:each="role : ${roles}">
+                <input type="checkbox" th:id="'role_' + ${role.name()}" th:name="roles" th:value="${role.name()}"/>
+                <label th:for="'role_' + ${role.name()}" th:text="${role.name()}"></label>
+            </div>
+        </div>
+        <button type="submit">Register</button>
+    </form>
 </form>
 </body>
 </html>

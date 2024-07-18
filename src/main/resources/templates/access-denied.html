@@ -8,6 +8,15 @@
     <title>Document</title>
 </head>
 <body>
-<h1> you dont have the permission</h1>
+<h1> you dont have the permission , pleas Login</h1>
+
+<h2> the page wil after seconds redirect to login page</h2>
+<script>
+    let h2 = document.querySelector("h2")
+
+    setTimeout(function () {
+        window.location.href = "/login?authentication";
+    }, 3000);
+</script>
 </body>
 </html>

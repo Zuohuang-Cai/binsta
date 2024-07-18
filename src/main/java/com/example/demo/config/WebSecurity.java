@@ -1,6 +1,7 @@
 package com.example.demo.config;
 
 import com.example.demo.handler.CustomAccessDeniedHandler;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.ApplicationEventPublisher;
@@ -18,17 +19,20 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 @Configuration
 @EnableWebSecurity
 public class WebSecurity {
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
+        return http
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/register").permitAll()
+                        .requestMatchers("/login/**").permitAll()
+                        .requestMatchers("/").permitAll()
+                        .requestMatchers("/blog/**").hasRole("USER")
+                        .requestMatchers("/access-denied").permitAll()
                         .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form
-                        .loginPage("/login")
+                        .loginPage("/login?authentication")
                         .permitAll()
                 )
                 .logout((logout) -> logout
@@ -38,11 +42,10 @@ public class WebSecurity {
                         .deleteCookies("JSESSIONID")
                         .permitAll()
                 )
-                .exceptionHandling((exceptions) -> exceptions
-                        .accessDeniedHandler(accessDeniedHandler())
-                );
-
-        return http.build();
+                .exceptionHandling(
+                        exceptionHandling -> exceptionHandling
+                                .accessDeniedHandler(accessDeniedHandler())
+                ).build();
     }
 
     @Bean
