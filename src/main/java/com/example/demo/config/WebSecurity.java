@@ -33,6 +33,8 @@ public class WebSecurity {
                 )
                 .formLogin((form) -> form
                         .loginPage("/login?authentication")
+                        .loginProcessingUrl("/login")
+                        .defaultSuccessUrl("/", true)
                         .permitAll()
                 )
                 .logout((logout) -> logout

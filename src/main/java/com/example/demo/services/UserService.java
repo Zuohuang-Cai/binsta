@@ -8,6 +8,9 @@ import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -27,7 +30,7 @@ public class UserService {
 
     @Transactional
     public void registerUser(UserRegisterDTO userRegisterDTO) {
-        if (usersRepository.findByUsername(userRegisterDTO.getUsername()) != null) {
+        if (usersRepository.findByUsername(userRegisterDTO.getUsername()).isPresent()) {
             throw new RuntimeException("Username already exists");
         }
         log.info(passwordEncoder.encode(userRegisterDTO.getPassword()));
@@ -39,5 +42,19 @@ public class UserService {
                 .collect(Collectors.toList());
         user.setRoles(roles);
         usersRepository.save(user);
+    }
+
+    public Users getLoggedInUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw new RuntimeException("cant find Username in UserService");
+        }
+
+        Object principal = authentication.getPrincipal();
+
+        return usersRepository.findByUsername(((UserDetails) principal).getUsername()).orElseThrow(
+                () -> new RuntimeException("cant find Username in UserService")
+        );
     }
 }
