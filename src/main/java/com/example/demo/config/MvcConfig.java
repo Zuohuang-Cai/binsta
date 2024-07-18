@@ -33,5 +33,4 @@ public class MvcConfig implements WebMvcConfigurer {
                 .addResourceLocations("classpath:/static/images/")
                 .setCachePeriod(3600);
     }
-
 }
