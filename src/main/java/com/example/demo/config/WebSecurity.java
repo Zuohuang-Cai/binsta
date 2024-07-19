@@ -27,6 +27,7 @@ public class WebSecurity {
                         .requestMatchers("/login/**").permitAll()
                         .requestMatchers("/").permitAll()
                         .requestMatchers("/blog/**").hasRole("USER")
+                        .requestMatchers("/swagger-ui.html").hasRole("ADMIN")
                         .requestMatchers("/access-denied").permitAll()
                         .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
                         .anyRequest().authenticated()
