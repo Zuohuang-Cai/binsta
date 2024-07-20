@@ -23,23 +23,24 @@ public class WebSecurity {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/register").permitAll()
-                        .requestMatchers("/login/**").permitAll()
+                        .requestMatchers("/user/register").permitAll()
+                        .requestMatchers("/user/login/**").permitAll()
                         .requestMatchers("/").permitAll()
                         .requestMatchers("/blog/**").hasRole("USER")
+                        .requestMatchers("/swagger-ui.html").hasRole("ADMIN")
                         .requestMatchers("/access-denied").permitAll()
                         .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form
-                        .loginPage("/login?authentication")
-                        .loginProcessingUrl("/login")
+                        .loginPage("/user/login?authentication")
+                        .loginProcessingUrl("/user/login")
                         .defaultSuccessUrl("/", true)
                         .permitAll()
                 )
                 .logout((logout) -> logout
-                        .logoutUrl("/logout")
-                        .logoutSuccessUrl("/login?logout")
+                        .logoutUrl("/user/logout")
+                        .logoutSuccessUrl("/user/login?logout")
                         .invalidateHttpSession(true)
                         .deleteCookies("JSESSIONID")
                         .permitAll()

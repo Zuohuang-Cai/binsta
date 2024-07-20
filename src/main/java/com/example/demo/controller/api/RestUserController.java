@@ -14,7 +14,7 @@ public class RestUserController {
     private UserService userService;
 
     @GetMapping("/current-user")
-    public Long getCurrentUserId() {
-        return userService.getLoggedInUser().getId();
+    public Users getCurrentUserId() {
+        return userService.getLoggedInUser();
     }
 }
