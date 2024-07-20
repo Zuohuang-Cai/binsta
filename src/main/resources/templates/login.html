@@ -36,12 +36,12 @@
         <div th:if="${success}" th:text="${success}"/>
         <div th:if="${param.registered}" th:text="'Registration successful! Please log in.'"></div>
 
-        <form th:action="@{/login}" method="post" class="d-flex flex-column">
+        <form th:action="@{/user/login}" method="post" class="d-flex flex-column">
             <input placeholder="Username" type="text" name="username" class="m-1"/>
             <input placeholder="Password" class="m-1" type="password" name="password"/>
             <input type="submit" class="btn btn-primary" value="Log In"/>
         </form>
-        <p>Don't have an account? <a th:href="@{/register}" class="text-decoration-none"> Sign up</a></p>
+        <p>Don't have an account? <a th:href="@{/user/register}" class="text-decoration-none"> Sign up</a></p>
     </div>
 
 </div>

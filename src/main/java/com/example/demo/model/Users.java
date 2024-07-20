@@ -33,6 +33,8 @@ public class Users implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Blog> blogs = new HashSet<>();
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Commit> commits = new HashSet<>();
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of();

@@ -1,5 +1,6 @@
 package com.example.demo.controller.api;
 
+import com.example.demo.DTO.ShowBlogDTO;
 import com.example.demo.model.Blog;
 import com.example.demo.services.BlogService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +17,7 @@ public class RestBlogController {
     private BlogService blogService;
 
     @GetMapping("/random-blog")
-    public List<Blog> randomBlog() {
-        System.out.println(blogService.getRandomBlogs());
-        Object a = blogService.getRandomBlogs();
+    public List<ShowBlogDTO> randomBlog() {
         return blogService.getRandomBlogs();
     }
 

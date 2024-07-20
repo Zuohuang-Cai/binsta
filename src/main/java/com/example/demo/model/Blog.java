@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.sql.Date;
 import java.time.LocalDateTime;
+import java.util.Base64;
 import java.util.Set;
 
 
@@ -19,8 +19,10 @@ public class Blog {
     private Long id;
     @Column(nullable = false)
     private String title;
-    @Column(nullable = false)
-    private String image;
+
+    @Column(nullable = false, columnDefinition = "LONGBLOB")
+    @Lob
+    private byte[] image;
     @Column(nullable = false)
     private String description;
     @Column(name = "create_date", updatable = false, nullable = false)
@@ -33,8 +35,20 @@ public class Blog {
 
     @OneToMany(mappedBy = "blog", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<BlogCommit> blogCommits;
+
+    @OneToMany(mappedBy = "blog", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<BlogLikes> blogLikes;
+
     @PrePersist
     protected void onCreate() {
         this.createDate = LocalDateTime.now();
+    }
+
+    public String GetImageBase64() {
+        return Base64.getEncoder().encodeToString(this.image);
+    }
+
+    public int getLikeCount() {
+        return this.blogLikes.size();
     }
 }
