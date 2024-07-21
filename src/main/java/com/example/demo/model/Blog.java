@@ -34,7 +34,7 @@ public class Blog {
     private Users user;
 
     @OneToMany(mappedBy = "blog", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<BlogCommit> blogCommits;
+    private Set<Commit> blogCommits;
 
     @OneToMany(mappedBy = "blog", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<BlogLikes> blogLikes;

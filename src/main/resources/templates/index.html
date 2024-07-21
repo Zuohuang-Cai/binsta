@@ -81,12 +81,15 @@
         </div>
         <div th:text="'Created at '+${blog.getCreateDate()}">
         </div>
-        <form class="d-flex border-top h-auto" th:action="@{#}" method="post">
-            <input type="text" class="w-100 border-0 pb-3" placeholder="Post a comment ...">
+        <form class="d-flex border-top h-auto" th:action="@{/blog/commit}" method="post">
+            <input type="hidden" name="blogId" th:value="${blog.getId()}">
+            <input type="text" name="description" class="w-100 border-0 pb-3" placeholder="Post a comment ...">
             <button class="border-0 pb-3 bg-body" type="submit">Post</button>
         </form>
     </div>
 </div>
+<a th:href="@{logout}">logout</a>
+
 <script th:src=" @{js/SearchButton.js}"></script>
 </body>
 </html>
