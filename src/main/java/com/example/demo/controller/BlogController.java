@@ -7,10 +7,7 @@ import com.example.demo.services.BlogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
@@ -19,14 +16,19 @@ import java.io.IOException;
 public class BlogController {
 
     @Autowired
-    private BlogRepository blogRepository;
-    @Autowired
     private BlogService blogService;
 
     @GetMapping("/create")
     public String createBlog(Model model) {
         model.addAttribute("blog", new CreateBlogDTO());
         return "Blog/create";
+    }
+
+    @PostMapping("/commit")
+    public String createCommit(@RequestParam Long blogId, @RequestParam String description) {
+        blogService.createCommit(blogId, description);
+
+        return "redirect:/";
     }
 
     @PostMapping("/create")

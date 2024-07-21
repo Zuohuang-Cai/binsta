@@ -14,6 +14,7 @@ import java.util.Date;
 @Builder
 @AllArgsConstructor
 public class ShowBlogDTO {
+    private Long id;
     private String title;
     private String imageBase64;
     private String description;
