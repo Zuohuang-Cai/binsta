@@ -35,7 +35,7 @@ public class BlogSeeder {
     );
 
     private static final List<String> IMAGES = Arrays.asList(
-            "mountain.jpeg", "space.jpeg", "pinkBol.png", "chameleon.png"
+            "mountain.jpeg", "space.jpeg", "pinkBol.png","sunflower.png","rat.png","panda.png","tiger.png"
     );
 
     public void createRandomBlog() {
