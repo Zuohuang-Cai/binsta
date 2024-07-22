@@ -1,8 +1,6 @@
 package com.example.demo.controller;
 
 import com.example.demo.DTO.CreateBlogDTO;
-import com.example.demo.model.Blog;
-import com.example.demo.repository.BlogRepository;
 import com.example.demo.services.BlogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,7 +25,6 @@ public class BlogController {
     @PostMapping("/commit")
     public String createCommit(@RequestParam Long blogId, @RequestParam String description) {
         blogService.createCommit(blogId, description);
-
         return "redirect:/";
     }
 

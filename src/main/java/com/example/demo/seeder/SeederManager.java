@@ -10,16 +10,26 @@ import org.springframework.stereotype.Component;
 public class SeederManager {
     private final UserSeeder userSeeder;
     private final BlogSeeder blogSeeder;
+    private final CommitSeeder commitSeeder;
 
     @Autowired
-    public SeederManager(UserSeeder userSeeder, BlogSeeder blogSeeder) {
+    public SeederManager(UserSeeder userSeeder, BlogSeeder blogSeeder, CommitSeeder commitSeeder) {
         this.userSeeder = userSeeder;
         this.blogSeeder = blogSeeder;
+        this.commitSeeder = commitSeeder;
     }
 
     @PostConstruct
     public void seedData() {
         userSeeder.seedData();
-        blogSeeder.seedData();
+        for (int i = 0; i < 20; i++) {
+            userSeeder.createRandomUser();
+        }
+        for (int i = 0; i < 5; i++) {
+            blogSeeder.seedData();
+        }
+        for (int i = 0; i < 15; i++) {
+            commitSeeder.seedData();
+        }
     }
 }

@@ -17,3 +17,14 @@
     height: 16px;
     cursor: pointer;
 }
+
+.commitButton {
+    background: none;
+    position: absolute;
+    right: 20%;
+    cursor: pointer;
+}
+
+.commitButton:active {
+    background: #f0f0f0;
+}

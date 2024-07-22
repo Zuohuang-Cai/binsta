@@ -53,6 +53,9 @@ public class BlogService {
         Blog blog = blogRepository.findById(blogId)
                 .orElseThrow(() -> new RuntimeException("Blog not found"));
 
+        if (description.isEmpty()) {
+            throw new RuntimeException("Description cannot be empty");
+        }
         Commit commit = Commit.builder()
                 .description(description)
                 .user(userService.getLoggedInUser())
@@ -60,7 +63,6 @@ public class BlogService {
                 .build();
         commitRepository.save(commit);
     }
-
 
     public List<ShowBlogDTO> getRandomBlogs() {
         List<Blog> allBlogs = StreamSupport.stream(blogRepository.findAll().spliterator(), false)
@@ -77,7 +79,9 @@ public class BlogService {
                     .imageBase64(blog.GetImageBase64())
                     .likeCount(blog.getLikeCount())
                     .createDate(blog.getCreateDate().format(formatter))
-                    .username(blog.getUser().getUsername())
+                    .nickName(blog.getUser().getNickname())
+                    .avatarBase64(blog.getUser().getAvatarBase64())
+                    .commits(commitRepository.findAllByBlogId(blog.getId()))
                     .build();
 
             showBlogDTOS.add(showBlogDTO);
