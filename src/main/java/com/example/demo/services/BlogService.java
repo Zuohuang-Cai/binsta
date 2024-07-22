@@ -64,7 +64,6 @@ public class BlogService {
         commitRepository.save(commit);
     }
 
-
     public List<ShowBlogDTO> getRandomBlogs() {
         List<Blog> allBlogs = StreamSupport.stream(blogRepository.findAll().spliterator(), false)
                 .collect(Collectors.toList());
@@ -80,7 +79,9 @@ public class BlogService {
                     .imageBase64(blog.GetImageBase64())
                     .likeCount(blog.getLikeCount())
                     .createDate(blog.getCreateDate().format(formatter))
-                    .username(blog.getUser().getUsername())
+                    .nickName(blog.getUser().getNickname())
+                    .avatarBase64(blog.getUser().getAvatarBase64())
+                    .commits(commitRepository.findAllByBlogId(blog.getId()))
                     .build();
 
             showBlogDTOS.add(showBlogDTO);

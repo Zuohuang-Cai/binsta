@@ -1,13 +1,11 @@
 package com.example.demo.DTO;
 
+import com.example.demo.model.Commit;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.time.LocalDateTime;
-import java.util.Date;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -18,7 +16,9 @@ public class ShowBlogDTO {
     private String title;
     private String imageBase64;
     private String description;
+    private String avatarBase64;
     private int likeCount;
     private String createDate;
-    private String username;
+    private String nickName;
+    private List<Commit> commits;
 }

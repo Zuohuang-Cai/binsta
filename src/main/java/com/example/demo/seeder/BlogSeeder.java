@@ -1,21 +1,17 @@
 package com.example.demo.seeder;
 
-import com.example.demo.enums.UserRole;
 import com.example.demo.model.Blog;
 import com.example.demo.model.Users;
 import com.example.demo.repository.BlogRepository;
 import com.example.demo.repository.UsersRepository;
 import com.example.demo.utils.FileUtils;
-import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
+
 
 @Component
 public class BlogSeeder {
@@ -24,6 +20,41 @@ public class BlogSeeder {
 
     @Autowired
     private UsersRepository userRepository;
+
+    private static final List<String> TITLES = Arrays.asList(
+            "Exploring the Universe", "A Day in the Life", "Nature's Beauty", "Tech Innovations",
+            "Historical Insights", "Culinary Adventures", "Travel Diaries", "Fitness Routines",
+            "Music and Art", "Gaming Trends"
+    );
+
+    private static final List<String> DESCRIPTIONS = Arrays.asList(
+            "An in-depth look at the cosmos.", "A snapshot of daily life.", "Capturing the essence of nature.",
+            "The latest in technology.", "Exploring historical events.", "Tasting the world's flavors.",
+            "Journeys around the globe.", "Staying fit and healthy.", "Expressions through music and art.",
+            "What's new in gaming."
+    );
+
+    private static final List<String> IMAGES = Arrays.asList(
+            "mountain.jpeg", "space.jpeg", "pinkBol.png", "chameleon.png"
+    );
+
+    public void createRandomBlog() {
+        Random random = new Random();
+
+        String title = TITLES.get(random.nextInt(TITLES.size()));
+        String description = DESCRIPTIONS.get(random.nextInt(DESCRIPTIONS.size()));
+        String imageFileName = IMAGES.get(random.nextInt(IMAGES.size()));
+        byte[] image = FileUtils.readImage("src/main/resources/static/images/" + imageFileName);
+
+        Users user = getRandomUser();
+
+        Blog blog = new Blog();
+        blog.setTitle(title);
+        blog.setUser(user);
+        blog.setDescription(description);
+        blog.setImage(image);
+        blogRepository.save(blog);
+    }
 
     public void seedData() {
         Blog blog1 = new Blog();
@@ -39,6 +70,15 @@ public class BlogSeeder {
         blog2.setDescription("this space looks beautiful");
         blog2.setImage(FileUtils.readImage("src/main/resources/static/images/space.jpeg"));
         blogRepository.save(blog2);
+    }
+
+    private Users getRandomUser() {
+        List<Users> users = userRepository.findAll();
+        if (users.isEmpty()) {
+            throw new RuntimeException("No users found");
+        }
+        Random random = new Random();
+        return users.get(random.nextInt(users.size()));
     }
 
 }
