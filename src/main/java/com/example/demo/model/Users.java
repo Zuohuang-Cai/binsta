@@ -23,6 +23,12 @@ public class Users implements UserDetails {
     @Column(nullable = false, unique = true)
     private String username;
 
+    @Lob
+    @Column(nullable = false, columnDefinition = "LONGBLOB")
+    private byte[] avatar;
+
+    @Column(nullable = false)
+    private String nickname;
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
@@ -35,6 +41,7 @@ public class Users implements UserDetails {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Commit> commits = new HashSet<>();
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of();

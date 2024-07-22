@@ -6,8 +6,10 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/SearchButton.css}">
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <style>
         .binstaFonts {
             font-family: "Playwrite BE VLG", cursive;
@@ -54,7 +56,7 @@
 </nav>
 
 <div class="container">
-    <div th:each="blog : ${blogsData}" class="border rounded border-1 pb-3 my-5">
+    <div th:each="blog : ${blogsData}" class="border rounded border-1 pt-3 my-5">
         <div class="d-flex align-items-center">
             <svg id="searchIcon" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
                  class="bi bi-search" viewBox="0 0 16 16">
@@ -81,15 +83,15 @@
         </div>
         <div th:text="'Created at '+${blog.getCreateDate()}">
         </div>
-        <form class="d-flex border-top h-auto" th:action="@{/blog/commit}" method="post">
+        <div class="d-flex border-top h-auto comment-form">
             <input type="hidden" name="blogId" th:value="${blog.getId()}">
-            <input type="text" name="description" class="w-100 border-0 pb-3" placeholder="Post a comment ...">
-            <button class="border-0 pb-3 bg-body" type="submit">Post</button>
-        </form>
+            <input type="text" name="description" class="w-100 border-0 py-2" placeholder="Post a comment ...">
+            <button class="border-0 py-2 text-primary commitButton" type="button" onclick="createCommit(event)">Post</button>
+        </div>
     </div>
 </div>
-<a th:href="@{logout}">logout</a>
-
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 <script th:src=" @{js/SearchButton.js}"></script>
+<script th:src="@{js/SendCommit.js}"></script>
 </body>
 </html>

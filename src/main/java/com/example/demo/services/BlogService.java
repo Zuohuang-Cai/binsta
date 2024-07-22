@@ -53,6 +53,9 @@ public class BlogService {
         Blog blog = blogRepository.findById(blogId)
                 .orElseThrow(() -> new RuntimeException("Blog not found"));
 
+        if (description.isEmpty()) {
+            throw new RuntimeException("Description cannot be empty");
+        }
         Commit commit = Commit.builder()
                 .description(description)
                 .user(userService.getLoggedInUser())
