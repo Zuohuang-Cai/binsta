@@ -14,7 +14,9 @@ function createCommit(event) {
         }
     })
         .then(response => {
-            if (response.ok) {
+            if (response.url.includes('login')) {
+                window.location.href = '/user/login?authentication';
+            } else if (response.ok) {
                 Toastify({
                     text: "Comment successfully posted!",
                     duration: 3000,
