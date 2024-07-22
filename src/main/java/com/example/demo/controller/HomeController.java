@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.services.BlogService;
 import com.example.demo.services.UserService;
+import com.example.demo.utils.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,7 +25,11 @@ public class HomeController {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         model.addAttribute("formatter", formatter);
         model.addAttribute("blogsData", blogService.getRandomBlogs());
-        model.addAttribute("UserAvatar", Base64.getEncoder().encodeToString(userService.getLoggedInUser().getAvatar()));
+        try {
+            model.addAttribute("UserAvatar", Base64.getEncoder().encodeToString(userService.getLoggedInUser().getAvatar()));
+        } catch (Exception e) {
+            model.addAttribute("UserAvatar", Base64.getEncoder().encodeToString(FileUtils.readImage("src/main/resources/static/images/defaultAvatar.png")));
+        }
         return "index";
     }
 }
