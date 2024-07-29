@@ -1,5 +1,6 @@
 package com.example.demo.controller.api;
 
+import com.example.demo.DTO.GetCurrentUserDTO;
 import com.example.demo.model.Users;
 import com.example.demo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,8 @@ public class RestUserController {
     private UserService userService;
 
     @GetMapping("/current-user")
-    public Users getCurrentUserId() {
-        return userService.getLoggedInUser();
+    public GetCurrentUserDTO getCurrentUserId() {
+        return userService.getLoggedInUserDTO();
     }
+
 }

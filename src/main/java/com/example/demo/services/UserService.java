@@ -1,5 +1,6 @@
 package com.example.demo.services;
 
+import com.example.demo.DTO.GetCurrentUserDTO;
 import com.example.demo.DTO.UserRegisterDTO;
 import com.example.demo.enums.UserRole;
 import com.example.demo.model.Users;
@@ -14,6 +15,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.beans.Encoder;
+import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -55,5 +58,24 @@ public class UserService {
         return usersRepository.findByUsername(((UserDetails) principal).getUsername()).orElseThrow(
                 () -> new RuntimeException("cant find Username in UserService")
         );
+    }
+
+    public GetCurrentUserDTO getLoggedInUserDTO() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw new RuntimeException("cant find Username in UserService");
+        }
+
+        Object principal = authentication.getPrincipal();
+
+        Users user = usersRepository.findByUsername(((UserDetails) principal).getUsername()).orElseThrow(
+                () -> new RuntimeException("cant find Username in UserService")
+        );
+        return GetCurrentUserDTO.builder()
+                .username(user.getUsername())
+                .avatar(user.getAvatar() != null ? new String(user.getAvatar()) : null)
+                .nickname(user.getNickname())
+                .build();
     }
 }
