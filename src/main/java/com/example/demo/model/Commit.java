@@ -22,8 +22,8 @@ public class Commit {
 
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id", nullable = false)
     private Users user;
 
     @Column(nullable = false)
@@ -32,12 +32,17 @@ public class Commit {
     @Column(name = "create_date", updatable = false, nullable = false)
     private LocalDateTime createDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "blog_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "blog_id", nullable = false)
     private Blog blog;
 
     @PrePersist
     protected void onCreate() {
         this.createDate = LocalDateTime.now();
+    }
+
+    @Override
+    public String toString() {
+        return "";
     }
 }

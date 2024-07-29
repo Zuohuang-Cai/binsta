@@ -1,11 +1,14 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.util.Base64;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
@@ -32,12 +35,12 @@ public class Blog {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @JoinColumn(name = "user_id", nullable = false)
     private Users user;
-
+    @JsonIgnore
     @OneToMany(mappedBy = "blog", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Commit> blogCommits;
-
+    private List<Commit> blogCommits;
+    @JsonIgnore
     @OneToMany(mappedBy = "blog", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<BlogLikes> blogLikes;
+    private List<BlogLikes> blogLikes;
 
     @PrePersist
     protected void onCreate() {
@@ -50,5 +53,10 @@ public class Blog {
 
     public int getLikeCount() {
         return this.blogLikes.size();
+    }
+
+    @Override
+    public String toString() {
+        return "";
     }
 }

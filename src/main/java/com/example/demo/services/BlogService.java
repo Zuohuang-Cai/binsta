@@ -3,7 +3,9 @@ package com.example.demo.services;
 import com.example.demo.DTO.CreateBlogDTO;
 import com.example.demo.DTO.ShowBlogDTO;
 import com.example.demo.model.Blog;
+import com.example.demo.model.BlogLikes;
 import com.example.demo.model.Commit;
+import com.example.demo.repository.BlogLikesRepository;
 import com.example.demo.repository.BlogRepository;
 import com.example.demo.repository.CommitRepository;
 import jakarta.transaction.Transactional;
@@ -25,11 +27,13 @@ public class BlogService {
     private final BlogRepository blogRepository;
     private final UserService userService;
     private final CommitRepository commitRepository;
+    private final BlogLikesRepository blogLikesRepository;
 
     @Autowired
-    public BlogService(BlogRepository blogRepository, UserService userService, CommitRepository commitRepository) {
+    public BlogService(BlogRepository blogRepository, UserService userService, CommitRepository commitRepository, BlogLikesRepository blogLikesRepository) {
         this.blogRepository = blogRepository;
         this.userService = userService;
+        this.blogLikesRepository = blogLikesRepository;
         this.commitRepository = commitRepository;
     }
 
@@ -38,6 +42,15 @@ public class BlogService {
     @Qualifier("BCryptpasswordEncoder")
     private PasswordEncoder passwordEncoder;
 
+    @Transactional
+    public void addLike(Long blogId) {
+
+        BlogLikes blogLikes = BlogLikes.builder()
+                .blog(blogRepository.findById(blogId).orElseThrow(() -> new RuntimeException("Blog not found")))
+                .user(userService.getLoggedInUser())
+                .build();
+        blogLikesRepository.save(blogLikes);
+    }
 
     public void createBlog(CreateBlogDTO blog) throws IOException {
         Blog blogModel = new Blog();
@@ -72,6 +85,8 @@ public class BlogService {
         List<Blog> blogs = allBlogs.subList(0, Math.min(allBlogs.size(), 10));
         List<ShowBlogDTO> showBlogDTOS = new ArrayList<>();
         for (Blog blog : blogs) {
+            System.out.println(blog.getBlogCommits());
+            System.out.println(blog.getBlogLikes());
             ShowBlogDTO showBlogDTO = ShowBlogDTO.builder()
                     .id(blog.getId())
                     .title(blog.getTitle())
@@ -81,7 +96,7 @@ public class BlogService {
                     .createDate(blog.getCreateDate().format(formatter))
                     .nickName(blog.getUser().getNickname())
                     .avatarBase64(blog.getUser().getAvatarBase64())
-                    .commits(commitRepository.findAllByBlogId(blog.getId()))
+                    .commits(blog.getBlogCommits())
                     .build();
 
             showBlogDTOS.add(showBlogDTO);
