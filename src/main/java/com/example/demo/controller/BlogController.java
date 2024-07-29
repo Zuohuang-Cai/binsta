@@ -22,12 +22,6 @@ public class BlogController {
         return "Blog/create";
     }
 
-    @PostMapping("/commit")
-    public String createCommit(@RequestParam Long blogId, @RequestParam String description) {
-        blogService.createCommit(blogId, description);
-        return "redirect:/";
-    }
-
     @PostMapping("/create")
     public String createBlog(@ModelAttribute CreateBlogDTO blog) throws IOException {
         blogService.createBlog(blog);
