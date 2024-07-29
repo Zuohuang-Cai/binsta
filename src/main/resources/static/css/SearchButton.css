@@ -28,3 +28,7 @@
 .commitButton:active {
     background: #f0f0f0;
 }
+
+.heart:hover {
+cursor: pointer;
+}

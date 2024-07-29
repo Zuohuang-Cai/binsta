@@ -7,7 +7,9 @@ import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
 @Entity
-@Table(name = "blog_likes")
+@Table(name = "blog_likes", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"blog_id", "user_id"})
+})
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -25,4 +27,9 @@ public class BlogLikes {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false)
     private Users user;
+
+    @Override
+    public String toString() {
+        return "";
+    }
 }

@@ -26,4 +26,10 @@ public class RestBlogController {
         return Result.success();
     }
 
+    @PostMapping("/blog/like")
+    public Result addLike(@RequestParam Long blogId) {
+        blogService.addLike(blogId);
+        return Result.success();
+    }
+
 }

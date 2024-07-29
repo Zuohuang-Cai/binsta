@@ -2,6 +2,7 @@ package com.example.demo.model;
 
 import com.example.demo.enums.UserRole;
 import com.example.demo.utils.FileUtils;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
@@ -34,11 +35,12 @@ public class Users implements UserDetails {
 
     @Column(nullable = false)
     private String password;
+    @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Blog> blogs = new HashSet<>();
-
+    private List<Blog> blogs;
+    @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Commit> commits = new HashSet<>();
+    private List<Commit> commits;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -67,5 +69,10 @@ public class Users implements UserDetails {
 
     public String getAvatarBase64() {
         return Base64.getEncoder().encodeToString(this.avatar);
+    }
+
+    @Override
+    public String toString() {
+        return "";
     }
 }
