@@ -29,7 +29,7 @@ public class UserSeeder {
             "Music Fan", "Foodie", "Traveler", "Gamer", "Artist"
     );
     private static final List<String> Avatars = Arrays.asList(
-            "Woman", "Man", "Kids"
+            "AvatarKids.png", "AvatarMan.png", "AvatarWoman.png"
     );
 
     private static final List<String> ROLES = Arrays.asList(
@@ -82,12 +82,9 @@ public class UserSeeder {
         UserRole role = UserRole.valueOf(ROLES.get(random.nextInt(ROLES.size())));
 
         String nickname = NICKNAMES.get(random.nextInt(NICKNAMES.size()));
-        System.out.println("src/main/resources/static/images/Avatar" +
-                Avatars.get(random.nextInt(Avatars.size())) + ".png");
 
-
-        byte[] avatar = FileUtils.readImage("src/main/resources/static/images/Avatar" +
-                Avatars.get(random.nextInt(Avatars.size())) + ".png");
+        byte[] avatar = FileUtils.readImage("src/main/resources/static/images/" +
+                Avatars.get(random.nextInt(Avatars.size())));
 
         Users user = new Users();
         user.setUsername(username);

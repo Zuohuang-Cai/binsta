@@ -1,6 +1,7 @@
 package com.example.demo.model;
 
 import com.example.demo.enums.UserRole;
+import com.example.demo.utils.FileUtils;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
