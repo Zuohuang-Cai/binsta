@@ -47,7 +47,9 @@ document.querySelectorAll('.heart').forEach(item => {
                 }
             })
                 .then(data => {
-                    if (data.status === 200) {
+                    if (data.redirected) {
+                        window.location.href = data.url;
+                    } else if (data.status === 200) {
                         likesFiled.querySelector("svg").style.color = "red"
                         // count of likes +1
                         likesFiled.querySelector("span").innerText = parseInt(likesFiled.querySelector("span").innerText) + 1

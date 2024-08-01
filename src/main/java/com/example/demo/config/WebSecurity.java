@@ -1,6 +1,7 @@
 package com.example.demo.config;
 
 import com.example.demo.handler.CustomAccessDeniedHandler;
+import com.example.demo.handler.CustomAuthenticationFailureHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -15,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -27,12 +29,14 @@ public class WebSecurity {
                         .requestMatchers("/user/login/**").permitAll()
                         .requestMatchers("/swagger-ui.html").hasRole("ADMIN")
                         .requestMatchers("/access-denied").permitAll()
+                        .requestMatchers("/").permitAll()
                         .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form
                         .loginPage("/user/login?authentication")
                         .loginProcessingUrl("/user/login")
+                        .failureHandler(customAuthenticationFailureHandler())
                         .defaultSuccessUrl("/", true)
                         .permitAll()
                 )
@@ -47,6 +51,10 @@ public class WebSecurity {
                         exceptionHandling -> exceptionHandling
                                 .accessDeniedHandler(accessDeniedHandler())
                 ).build();
+    }
+
+    public AuthenticationFailureHandler customAuthenticationFailureHandler() {
+        return new CustomAuthenticationFailureHandler();
     }
 
     @Bean

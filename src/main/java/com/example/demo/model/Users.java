@@ -25,7 +25,7 @@ public class Users implements UserDetails {
     private String username;
 
     @Lob
-    @Column(columnDefinition = "LONGBLOB")
+    @Column(columnDefinition = "LONGBLOB", nullable = false)
     private byte[] avatar;
 
     @Column(nullable = false)
@@ -55,6 +55,9 @@ public class Users implements UserDetails {
     protected void onCreate() {
         if (this.nickname == null) {
             this.nickname = this.username;
+        }
+        if (this.avatar == null) {
+            this.avatar = FileUtils.readImage("src/main/resources/static/images/defaultAvatar.png");
         }
     }
 
