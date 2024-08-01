@@ -25,7 +25,6 @@ public class WebSecurity {
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/user/register").permitAll()
                         .requestMatchers("/user/login/**").permitAll()
-                        .requestMatchers("/").permitAll()
                         .requestMatchers("/swagger-ui.html").hasRole("ADMIN")
                         .requestMatchers("/access-denied").permitAll()
                         .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()

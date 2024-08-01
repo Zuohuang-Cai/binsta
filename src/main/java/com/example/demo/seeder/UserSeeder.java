@@ -32,6 +32,10 @@ public class UserSeeder {
             "AvatarKids.png", "AvatarMan.png", "AvatarWoman.png"
     );
 
+    private static final List<String> Bios = Arrays.asList(
+            "Ninja Foodi Dual Zone Airfryer AF300EU", "GeForce RTX 4090", "Yamaha CLP-765 GP", "Armed helicopter"
+    );
+
     private static final List<String> ROLES = Arrays.asList(
             "USER", "ADMIN"
     );
@@ -91,6 +95,7 @@ public class UserSeeder {
         user.setPassword(passwordEncoder.encode(password));
         user.setRoles(List.of(role));
         user.setNickname(nickname);
+        user.setBio(Bios.get(random.nextInt(Bios.size())));
         user.setAvatar(avatar);
 
         userRepository.save(user);

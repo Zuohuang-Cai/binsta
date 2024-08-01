@@ -25,6 +25,7 @@ public class HomeController {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         model.addAttribute("formatter", formatter);
         model.addAttribute("blogsData", blogService.getRandomBlogs());
+        model.addAttribute("User", userService.getLoggedInUser());
         try {
             model.addAttribute("UserAvatar", Base64.getEncoder().encodeToString(userService.getLoggedInUser().getAvatar()));
         } catch (Exception e) {

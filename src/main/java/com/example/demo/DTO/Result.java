@@ -1,35 +1,32 @@
 package com.example.demo.DTO;
 
+import lombok.Data;
+
+@Data
 public class Result {
     private String message;
     private boolean success;
+    private Object data;
 
-    public Result(String message, boolean success) {
+    public Result(String message, boolean success, Object data) {
         this.message = message;
         this.success = success;
+        this.data = data;
     }
 
-    public static Result success(String message) {
-        return new Result(message, true);
+    public static Result success(Object data) {
+        return new Result("success", true, data);
     }
 
     public static Result success() {
-        return new Result(null, true);
+        return new Result("success", true, null);
     }
 
-    public static Result fail(String message) {
-        return new Result(message, false);
+    public static Result fail(Object data) {
+        return new Result("fail", false, data);
     }
 
     public static Result fail() {
-        return new Result(null, false);
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public boolean isSuccess() {
-        return success;
+        return new Result("fail", false, null);
     }
 }
