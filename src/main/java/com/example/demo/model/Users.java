@@ -3,11 +3,13 @@ package com.example.demo.model;
 import com.example.demo.enums.UserRole;
 import com.example.demo.utils.FileUtils;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Entity
@@ -23,7 +25,7 @@ public class Users implements UserDetails {
     private String username;
 
     @Lob
-    @Column(nullable = false, columnDefinition = "LONGBLOB")
+    @Column(columnDefinition = "LONGBLOB")
     private byte[] avatar;
 
     @Column(nullable = false)
@@ -35,12 +37,26 @@ public class Users implements UserDetails {
 
     @Column(nullable = false)
     private String password;
+
+    @Column
+    private String bio;
     @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Blog> blogs;
     @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Commit> commits;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<BlogLikes> blogLikes;
+
+    @PrePersist
+    protected void onCreate() {
+        if (this.nickname == null) {
+            this.nickname = this.username;
+        }
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

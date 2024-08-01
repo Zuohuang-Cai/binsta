@@ -5,6 +5,7 @@ import com.example.demo.DTO.ShowBlogDTO;
 import com.example.demo.model.Blog;
 import com.example.demo.model.BlogLikes;
 import com.example.demo.model.Commit;
+import com.example.demo.model.Users;
 import com.example.demo.repository.BlogLikesRepository;
 import com.example.demo.repository.BlogRepository;
 import com.example.demo.repository.CommitRepository;
@@ -52,6 +53,21 @@ public class BlogService {
         blogLikesRepository.save(blogLikes);
     }
 
+    @Transactional
+    public void deleteLike(Long blogId) {
+        Users loggedInUser = userService.getLoggedInUser();
+
+        Blog blog = blogRepository.findById(blogId)
+                .orElseThrow(() -> new RuntimeException("Blog not found"));
+
+        BlogLikes blogLikes = blogLikesRepository.findByBlogAndUser(blog, loggedInUser)
+                .orElseThrow(() -> new RuntimeException("Like not found"));
+
+        blogLikesRepository.delete(blogLikes);
+    }
+
+
+    @Transactional
     public void createBlog(CreateBlogDTO blog) throws IOException {
         Blog blogModel = new Blog();
         blogModel.setTitle(blog.getTitle());
