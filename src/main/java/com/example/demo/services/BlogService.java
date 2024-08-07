@@ -113,6 +113,7 @@ public class BlogService {
                     .nickName(blog.getUser().getNickname())
                     .avatarBase64(blog.getUser().getAvatarBase64())
                     .commits(blog.getBlogCommits())
+                    .codes(blog.getCodes())
                     .build();
 
             showBlogDTOS.add(showBlogDTO);

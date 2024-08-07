@@ -111,3 +111,4 @@ function binaryToBase64(binary) {
             .join('')
     );
 }
+

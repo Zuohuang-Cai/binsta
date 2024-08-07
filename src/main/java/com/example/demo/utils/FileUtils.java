@@ -13,4 +13,13 @@ public class FileUtils {
         }
         throw new RuntimeException("Error reading image");
     }
+
+    public static String readText(String path) {
+        try {
+            return Files.readString(Paths.get(path));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        throw new RuntimeException("Error reading text");
+    }
 }

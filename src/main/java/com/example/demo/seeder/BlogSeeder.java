@@ -35,7 +35,7 @@ public class BlogSeeder {
     );
 
     private static final List<String> IMAGES = Arrays.asList(
-            "mountain.jpeg", "space.jpeg", "pinkBol.png","sunflower.png","rat.png","panda.png","tiger.png"
+            "mountain.jpeg", "space.jpeg", "pinkBol.png", "sunflower.png", "rat.png", "panda.png", "tiger.png"
     );
 
     public void createRandomBlog() {
@@ -52,6 +52,7 @@ public class BlogSeeder {
         blog.setTitle(title);
         blog.setUser(user);
         blog.setDescription(description);
+        blog.setCodes(FileUtils.readText("src/main/resources/static/images/Seeder.md"));
         blog.setImage(image);
         blogRepository.save(blog);
     }
@@ -62,12 +63,15 @@ public class BlogSeeder {
         blog1.setUser(userRepository.findByUsername("user").orElseThrow(() -> new RuntimeException("User not found at BlogSeeder")));
         blog1.setDescription("this mountain looks huge");
         blog1.setImage(FileUtils.readImage("src/main/resources/static/images/mountain.jpeg"));
+        blog1.setCodes(FileUtils.readText("src/main/resources/static/images/Seeder.md"));
+
         blogRepository.save(blog1);
 
         Blog blog2 = new Blog();
         blog2.setTitle("picture of space !");
         blog2.setUser(userRepository.findByUsername("user").orElseThrow(() -> new RuntimeException("User not found at BlogSeeder")));
         blog2.setDescription("this space looks beautiful");
+        blog2.setCodes(FileUtils.readText("src/main/resources/static/images/Seeder.md"));
         blog2.setImage(FileUtils.readImage("src/main/resources/static/images/space.jpeg"));
         blogRepository.save(blog2);
     }

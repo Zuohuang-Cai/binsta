@@ -26,6 +26,10 @@ public class Blog {
     @Column(nullable = false, columnDefinition = "LONGBLOB")
     @Lob
     private byte[] image;
+
+    @Column(nullable = false, columnDefinition = "TEXT")
+    private String codes;
+
     @Column(nullable = false)
     private String description;
     @Column(name = "create_date", updatable = false, nullable = false)

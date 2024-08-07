@@ -20,5 +20,6 @@ public class ShowBlogDTO {
     private int likeCount;
     private String createDate;
     private String nickName;
+    private String codes;
     private List<Commit> commits;
 }

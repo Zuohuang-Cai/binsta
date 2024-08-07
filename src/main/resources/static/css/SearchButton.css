@@ -30,5 +30,18 @@
 }
 
 .heart:hover {
-cursor: pointer;
+    cursor: pointer;
+}
+
+.marked::before {
+    content: "";
+    position: sticky;
+    top: 0;
+    background-color: black;
+    padding: 50%;
+    opacity: 60%;
+}
+.markedCodes{
+    position: relative;
+    z-index: 1;
 }
