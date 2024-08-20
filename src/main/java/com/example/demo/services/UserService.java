@@ -60,6 +60,10 @@ public class UserService {
         );
     }
 
+    public List<Users> findUsersByUsernamePrefix(String prefix) {
+        return usersRepository.findByUsernameContaining(prefix);
+    }
+
     public GetCurrentUserDTO getLoggedInUserDTO() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 

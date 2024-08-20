@@ -17,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -74,6 +75,7 @@ public class BlogService {
         blogModel.setDescription(blog.getDescription());
         blogModel.setImage(blog.getImage().getBytes());
         blogModel.setUser(userService.getLoggedInUser());
+        blogModel.setCodes(new String(blog.getCodes().getBytes(), StandardCharsets.UTF_8));
         blogRepository.save(blogModel);
     }
 
