@@ -1,5 +1,6 @@
 package com.example.demo.services;
 
+import com.example.demo.DTO.EditUserDTO;
 import com.example.demo.DTO.GetCurrentUserDTO;
 import com.example.demo.DTO.UserRegisterDTO;
 import com.example.demo.enums.UserRole;
@@ -14,6 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.beans.Encoder;
 import java.util.Base64;
@@ -29,6 +31,30 @@ public class UserService {
     @Autowired
     @Qualifier("BCryptpasswordEncoder")
     private PasswordEncoder passwordEncoder;
+
+    public Users findByUsername(String username) {
+        return usersRepository.findByUsername(username).orElseThrow(
+                () -> new RuntimeException("cant find Username in UserService")
+        );
+    }
+
+    @Transactional
+    public void UpdateUser(EditUserDTO user) {
+        Users loggedInUser = getLoggedInUser();
+        loggedInUser.setNickname(user.getNickname());
+        loggedInUser.setBio(user.getBio());
+        if (StringUtils.hasText(user.getPassword())) {
+            loggedInUser.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
+        if (!user.getAvatar().isEmpty()) {
+            try {
+                loggedInUser.setAvatar(user.getAvatar().getBytes());
+            } catch (Exception e) {
+                throw new RuntimeException("cant find Username in UserService");
+            }
+        }
+        usersRepository.save(loggedInUser);
+    }
 
     @Transactional
     public void registerUser(UserRegisterDTO userRegisterDTO) {

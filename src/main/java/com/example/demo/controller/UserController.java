@@ -1,16 +1,18 @@
 package com.example.demo.controller;
 
+import com.example.demo.DTO.EditUserDTO;
+import com.example.demo.DTO.Result;
 import com.example.demo.DTO.UserRegisterDTO;
 import com.example.demo.enums.UserRole;
+import com.example.demo.model.Users;
 import com.example.demo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.io.IOException;
 
 
 @Controller
@@ -36,6 +38,27 @@ public class UserController {
         return "register";
     }
 
+    @GetMapping("/profile")
+    public String profile(@RequestParam(name = "username", required = true) String username, Model model) {
+        model.addAttribute("user", userService.findByUsername(username));
+        return "profile";
+    }
+
+    @GetMapping("/edit")
+    public String editProfile(Model model) {
+        Users user = userService.getLoggedInUser();
+        model.addAttribute("editUserDTO", EditUserDTO.builder()
+                .bio(user.getBio())
+                .nickname(user.getNickname())
+                .build());
+        return "edit";
+    }
+
+    @PostMapping("/edit")
+    public String editUser(EditUserDTO editUserDTO) throws IOException {
+        userService.UpdateUser(editUserDTO);
+        return "redirect:/user/profile?username=" + userService.getLoggedInUser().getUsername();
+    }
 
     @PostMapping("/register")
     public ModelAndView register(@ModelAttribute UserRegisterDTO userRegisterDTO) {

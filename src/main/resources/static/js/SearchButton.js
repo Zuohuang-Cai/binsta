@@ -22,6 +22,9 @@ function fetchContent() {
                 img.src = "data:image/jpeg;base64," + user.avatar;
                 img.width = 30;
                 text.textContent = user.nickname;
+                text.href = `http://127.0.0.1:8080/user/profile?username=${user.username}`;
+                text.classList.add('text-dark');
+                text.classList.add('text-decoration-none');
                 container.className = 'd-flex border border-top-0';
                 container.appendChild(img);
                 container.appendChild(text);
@@ -29,3 +32,4 @@ function fetchContent() {
             })
         })
 }
+
